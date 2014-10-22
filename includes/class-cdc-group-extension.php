@@ -18,8 +18,8 @@ if ( class_exists( 'BP_Group_Extension' ) ) {
 				$args = array(
 				'slug' => 'digital-journey',
 				'name' => 'Journey',
-				'access' => 'member', // @since BuddyPress 2.1: means anyone can visit the tab regardless of group status
-				'show_tab' => $this->enabled_for_group( bp_get_current_group_id() ) ? 'member' : 'noone', // @since BuddyPress 2.1: means anyone can see the nav tab regardless of group status
+				'access' => 'member', // @since BuddyPress 2.1.
+				'show_tab' => $this->enabled_for_group( bp_get_current_group_id() ) ? 'member' : 'noone', // @since BuddyPress 2.1
 				'nav_item_position' => 31,
            		'screens' => array(
 	                'edit' => array(
@@ -58,12 +58,14 @@ if ( class_exists( 'BP_Group_Extension' ) ) {
 				$main_tab_content = get_post( cdc_get_journey_source_page_id(), 'OBJECT' );
 
 				echo apply_filters( 'the_content', $main_tab_content->post_content );
+				edit_post_link( "Edit this page&rsquo;s content", '<p>', '</p>', cdc_get_journey_source_page_id() );
 
 			} else if ( $this->is_resources() ) {
 				// echo "This is the resources page";
 				$resources_tab_content = get_post( cdc_get_resources_source_page_id(), 'OBJECT' );
 
 				echo apply_filters( 'the_content', $resources_tab_content->post_content );
+				edit_post_link( "Edit this page&rsquo;s content", '<p>', '</p>', cdc_get_resources_source_page_id() );
 
 			} else if ( $this->is_backpack() ) {
 				// echo "This is the resources page";

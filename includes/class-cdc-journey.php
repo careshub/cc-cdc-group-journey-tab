@@ -371,8 +371,8 @@ class CC_CDC_Journey {
 		$favorites = get_user_meta( $user_id, 'cdc_backpack_favorites', true);
 
 		if ( $action == 'backpack-favorite' ) {
-			// Only add the term if it doesn't exist.
-			if ( array_search( $doc_id, $favorites ) === false )
+			// Only add the term if there are no terms or the term isn't in the list.
+			if ( ! is_array( $favorites ) || array_search( $doc_id, $favorites ) === false )
 				$favorites[] = $doc_id;
 		} else {
 			$key_to_delete = array_search( $doc_id, $favorites );
