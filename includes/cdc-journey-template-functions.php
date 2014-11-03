@@ -22,9 +22,48 @@ function cdc_backpack_content() {
     	if ( ! $group_id || ! $user_id )
     		return false;
 
-    	// Get the user's bp_docs
-    	$docs_args = array( 'group_id' =>  $group_id, 'author_id' => $user_id, 'status' => 'publish',  );
-    	echo '<h3>Library Items</h3>';
+        // Get the user's Maps & Reports
+        $items_to_fetch = array( 'map', 'report' );
+        foreach ($items_to_fetch as $item_type) {
+        	echo '<h3>Saved ' . ucfirst( $item_type ) . 's</h3>';
+
+        	$results = '';
+        	// If we can't fetch the items, or none exist, skip.
+            if ( function_exists('commons_group_library_pane_get_saved_maps_reports_for_user_in_group') )
+                $results = commons_group_library_pane_get_saved_maps_reports_for_user_in_group( $group_id, $user_id, $item_type );
+
+        	echo '<ul id="saved-' . $item_type . '" class="item-list">';
+            if ( $results ) {
+    	    	foreach ( $results as $item ) {
+        			cdc_saved_map_report_output( $item, $group_id );
+    	    	}
+            } else {
+                echo '<li><div class="item-desc">No saved ' . $item_type . 's to display.</div></li>';
+            }             
+
+            echo '</ul>';
+        } // End foreach $items_to_fetch
+
+        // Get the user's saved areas
+        echo '<h3>Saved Areas</h3>';
+        $areas = '';
+        // If we can't fetch the items, or none exist, skip.
+        if ( function_exists('commons_group_library_pane_get_saved_areas_for_user_in_group') ) 
+            $areas = commons_group_library_pane_get_saved_areas_for_user_in_group( $group_id, $user_id );
+        if ( $areas ) {
+            foreach ( $areas as $item ) {
+                cdc_saved_map_report_output( $item, $group_id );
+            }
+        } else {
+            echo "No saved areas to display.";
+        }
+
+
+
+
+        // Get the user's bp_docs
+        $docs_args = array( 'group_id' =>  $group_id, 'author_id' => $user_id, 'status' => 'publish',  );
+        echo '<h3>Library Items</h3>';
 
         if ( bp_docs_has_docs( $docs_args ) ) :
             echo '<ul id="library-items" class="item-list">';
@@ -32,50 +71,22 @@ function cdc_backpack_content() {
                 bp_docs_the_doc();
                 ?>
                     <li>
-                    	<div class="item">
-                    		<div class="item-title">
-    		                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-    		                    <span class="date"> | <?php the_date(); ?> </span>
-    	                    </div>
-    	                    <div class="item-desc">
-    	                    	<p><?php the_excerpt(); ?></p>
-    						</div>
+                        <div class="item">
+                            <div class="item-title">
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <span class="date"> | <?php the_date(); ?> </span>
+                            </div>
+                            <div class="item-desc">
+                                <p><?php the_excerpt(); ?></p>
+                            </div>
                         </div>
                     </li>
                 <?php
             endwhile;
             echo '</ul>';
         else:
-        	echo "No library items to display.";
+            echo "No library items to display.";
         endif;
-
-
-        // Get the user's Maps & Reports
-        $items_to_fetch = array( 'map', 'report' );
-        foreach ($items_to_fetch as $item_type) {
-        	echo '<h3>Saved ' . ucfirst( $item_type ) . 's</h3>';
-            $displayed_an_item = false;
-
-        	$results = '';
-        	// If we can't fetch the items, or none exist, skip.
-            if ( function_exists('commons_library_pane_get_saved_maps_reports_for_user') )
-                $results = commons_library_pane_get_saved_maps_reports_for_user( $user_id, $item_type );
-
-        	echo '<ul id="saved-' . $item_type . '" class="item-list">';
-	    	foreach ( $results as $item ) {
-    			if ( stripos( $item['sharing'], (string) $group_id ) === false )
-					continue;
-
-	    		cdc_saved_map_report_output( $item, $group_id );
-                // If we actually displayed a result, note it.
-                $displayed_an_item = true;
-	    	}
-
-            if ( ! $displayed_an_item )
-                echo '<li><div class="item-desc">No saved ' . $item_type . 's to display.</div></li>';
-
-            echo '</ul>';
-        } // End foreach $items_to_fetch
 
         // Get the user's bookmarked bp_docs
         $favorites = get_user_meta( $user_id, 'cdc_backpack_favorites', true);
