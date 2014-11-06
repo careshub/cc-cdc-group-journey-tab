@@ -40,7 +40,6 @@ function cdc_backpack_content() {
             } else {
                 echo '<li><div class="item-desc">No saved ' . $item_type . 's to display.</div></li>';
             }             
-
             echo '</ul>';
         } // End foreach $items_to_fetch
 
@@ -50,16 +49,15 @@ function cdc_backpack_content() {
         // If we can't fetch the items, or none exist, skip.
         if ( function_exists('commons_group_library_pane_get_saved_areas_for_user_in_group') ) 
             $areas = commons_group_library_pane_get_saved_areas_for_user_in_group( $group_id, $user_id );
+        echo '<ul id="saved-' . $item_type . '" class="item-list">';
         if ( $areas ) {
             foreach ( $areas as $item ) {
                 cdc_saved_map_report_output( $item, $group_id );
             }
         } else {
-            echo "No saved areas to display.";
+            echo '<li><div class="item-desc">No saved areas to display.</div></li>';
         }
-
-
-
+        echo '</ul>';
 
         // Get the user's bp_docs
         $docs_args = array( 'group_id' =>  $group_id, 'author_id' => $user_id, 'status' => 'publish',  );

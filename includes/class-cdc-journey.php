@@ -270,7 +270,7 @@ class CC_CDC_Journey {
 			return;
 
 		// If we're still going, then the doc is a match and we should add the favorite/unfavorite button
-		echo '<div class="cdc-favorite-button-container">';
+		echo '<div class="cdc-favorite-button-container" style="margin: 2em 0">';
 			$this->favorite_button_output( $doc_id, $user_id );
 		echo '</div>';
 
@@ -285,9 +285,9 @@ class CC_CDC_Journey {
 		$status = $this->has_user_favorited_this_doc( $doc_id, $user_id );
 
 		if ( ! $status ) {
-			echo '<a href="#" id="backpack-favorite" class="cdc-backpack-favorite button">Add this item to my backpack<a>';
+			echo '<a href="#" id="backpack-favorite" class="cdc-backpack-favorite button">Add this item to my backpack</a>';
 		} else {
-			echo '<a href="#" id="backpack-unfavorite" class="cdc-backpack-favorite button">Remove this item from my backpack<a>';
+			echo '<a href="#" id="backpack-unfavorite" class="cdc-backpack-favorite button">Remove this item from my backpack</a>';
 		}
 	}
 
