@@ -62,9 +62,8 @@ function cdc_backpack_content() {
         // Get the user's bp_docs
         $docs_args = array( 'group_id' =>  $group_id, 'author_id' => $user_id, 'status' => 'publish',  );
         echo '<h3>Library Items</h3>';
-
+        echo '<ul id="library-items" class="item-list">';
         if ( bp_docs_has_docs( $docs_args ) ) :
-            echo '<ul id="library-items" class="item-list">';
             while ( bp_docs_has_docs() ) : 
                 bp_docs_the_doc();
                 ?>
@@ -81,22 +80,22 @@ function cdc_backpack_content() {
                     </li>
                 <?php
             endwhile;
-            echo '</ul>';
         else:
-            echo "No library items to display.";
+            echo '<li><div class="item-desc">No library items to display.</div></li>';
         endif;
+        echo '</ul>';
+
 
         // Get the user's bookmarked bp_docs
         $favorites = get_user_meta( $user_id, 'cdc_backpack_favorites', true);
         echo '<h3>Bookmarked Library Items</h3>';
-
+        echo '<ul id="bookmarked-items" class="item-list">';
         if ( ! empty( $favorites ) ) {
         	$bookmarks_args = array( 'post__in' => $favorites, 'post_type' => 'bp_doc' );
             $bookmarks = new WP_Query( $bookmarks_args );
             // print_r($bookmarks);
 
             if ( $bookmarks->have_posts() ) {
-                echo '<ul id="bookmarked-items" class="item-list">';
                 while ( $bookmarks->have_posts() ) {
                     $bookmarks->the_post();
                     ?>
@@ -113,12 +112,12 @@ function cdc_backpack_content() {
                     </li>
                     <?php
                 }
-                echo '</ul>';
             }
-
         } else {
-        	echo "No bookmarked library items to display.";
+        	echo '<li><div class="item-desc">No bookmarked library items to display.</div></li>';
         }
+        echo '</ul>';
+
 
         // Get the GF checklists that the user has submitted
         if ( class_exists('GFAPI') ) : ?>
@@ -166,7 +165,7 @@ function cdc_backpack_content() {
                 endif;
             endforeach;
             if ( ! $showed_forms ) {
-                echo '<li>No completed forms to show.</li>';
+                echo '<li><div class="item-desc">No completed forms to show.</div></li>';
             }
         endif; // class_exists('GFAPI')
         ?>
