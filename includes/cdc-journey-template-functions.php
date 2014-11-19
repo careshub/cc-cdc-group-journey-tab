@@ -119,6 +119,59 @@ function cdc_backpack_content() {
         } else {
         	echo "No bookmarked library items to display.";
         }
+
+        // Get the GF checklists that the user has submitted
+        if ( class_exists('GFAPI') ) : ?>
+            <h3>Completed Checklists</h3>
+            <ul class='completed-checklists item-list'>
+            <?php
+            $showed_forms = false;
+            // Prepare the search criteria for Gravity Forms calls
+            $search_criteria["field_filters"][] = array( "key" => "created_by", value => $user_id );
+            $forms = array( 'intro' => array( 
+                                'id' => 19, 
+                                'label' => 'Introduction: Check-In &amp; Evaluate', 
+                                'url' => 'introduction-check-in-and-evaluate', 
+                                ),
+                            'assess' => array(
+                                'id' => 20, 
+                                'label' => 'Assess Needs &amp; Resources', 
+                                'url' => 'assess-needs-and-resources-check-in-and-evaluate', 
+                                ), 
+                            'focus' => array(
+                                'id' => 21, 
+                                'label' => 'Focus on What&rsquo;s Important', 
+                                'url' => 'focus-on-whats-important-check-and-evaluate', 
+                                ),
+                            'choose' => array(
+                                'id' => 22, 
+                                'label' => 'Choose Effective Policies and Programs', 
+                                'url' => 'choose-effective-policies-and-programs-check-in-evaluate', 
+                                ), 
+            );
+            foreach ($forms as $key => $value) :
+                if ( $entry = GFAPI::get_entries( $value['id'], $search_criteria) ) :
+                    $date = date("F d, Y", strtotime( $entry[0]['date_created'] ));
+                    ?>
+                    <li>
+                        <div class="item">
+                            <div class="item-title">
+                                <a href="<?php echo home_url( $value['url'] ); ?>"><?php echo $value['label']; ?></a>
+                                <span class="date"> | <?php echo $date; ?> </span>
+                            </div>
+                        </div>
+                    </li>
+                    <?php
+                    $showed_forms = true;
+                endif;
+            endforeach;
+            if ( ! $showed_forms ) {
+                echo '<li>No completed forms to show.</li>';
+            }
+        endif; // class_exists('GFAPI')
+        ?>
+        </ul>
+        <?php
     }
 
 function cdc_saved_map_report_output( $item, $group_id ) {
