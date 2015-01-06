@@ -56,6 +56,10 @@ class CC_CDC_Journey {
 	 * @since     1.0.0
 	 */
 	private function __construct() {
+		// Load public-facing style sheet and JavaScript.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 		// Add the ability to "favorite" docs created by group admins
 		add_action( 'bp_docs_single_doc_meta', array( $this, 'add_favoriting_mechanism' ), 60 );
 
@@ -242,7 +246,31 @@ class CC_CDC_Journey {
 
 	}
 
-	
+
+	/**
+	 * Register and enqueue public-facing style sheet.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_styles() {
+		$bpge_cdc_journey = new CDC_Digital_Journey_Group_Extension;
+		if ( $bpge_cdc_journey->is_current_component() )
+			wp_enqueue_style( $this->plugin_slug . '-plugin-styles', plugins_url( 'css/public.css', __FILE__ ), array(), self::VERSION );
+	}
+
+	/**
+	 * Register and enqueue public-facing JavaScript files.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_scripts() {
+		$bpge_cdc_journey = new CDC_Digital_Journey_Group_Extension;
+		if ( $bpge_cdc_journey->is_current_component() ) {
+			wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+		}
+
+	}
+
 	/**
 	* Add the ability to "favorite" docs created by group admins
 	* @since 1.0.0
@@ -305,30 +333,30 @@ class CC_CDC_Journey {
 					e.preventDefault();
 
 					// Defeat quick clickers.
-					if ( quick_click ) 
+					if ( quick_click )
 						return;
 
 				    quick_click = true;
 					var favorite = jQuery( this ).attr( 'id' );
 					jQuery.post(
-					    ajaxurl, 
+					    ajaxurl,
 					    {
 					        'action': 'cdc_favorite_doc',
 					        'favorite_action': favorite,
 					        'doc_id': <?php echo json_encode( $doc_id ); ?>,
 					        '_wpnonce': <?php echo json_encode( wp_create_nonce( "cdc-favorite" ) ); ?>,
-					    }, 
+					    },
 					    function(response){
 					    	quick_click = false;
 					        jQuery( '.cdc-favorite-button-container' ).html( response );
 					    }
-					);				
+					);
 				});
 
 			});
 
 		</script>
-		<?php 
+		<?php
 	}
 
 	/**

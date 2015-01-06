@@ -1,0 +1,15 @@
+.backpack-section .toggle-link {
+    font-weight: 400;
+
+}
+.count {
+    font-weight: 400;
+    display: inline-block;
+    margin-left: .6em;
+    background-color: #869b3c;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 90%;
+    line-height: 1.3;
+    padding: 0 6px;
+}
