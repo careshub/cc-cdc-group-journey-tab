@@ -66,6 +66,11 @@ class CC_CDC_Journey {
 		// Handle AJAX favorite/unfavorite requests.
 		add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
 		add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
+
+		// From the theme's functions file.
+		add_filter( 'gform_field_value_uuid', array( $this, 'cdc_gf_uuid' ) );
+		add_action( 'template_redirect', array( $this, 'cdcdch_users' ) );
+
 	}
 
 	/**
@@ -414,4 +419,32 @@ class CC_CDC_Journey {
 		return $success;
 	}
 
+	public function cdc_gf_uuid($value) {
+		return md5(uniqid(mt_rand(), true));
+	}
+
+	public function cdcdch_users() {
+		if ( ! class_exists('RGFormsModel') ) {
+			return;
+		}
+
+		if ( is_page('cdc_dch1') ) {
+			$form_id = 2;
+			$cdcusers = RGFormsModel::get_leads($form_id, '5', 'ASC');
+			global $current_user;
+			$count = 0;
+			// loop through all the returned results
+			foreach ( $cdcusers as $cdcuser ) {
+				if ( $current_user->display_name == $cdcuser['5'] ) {
+				  $count = $count + 1;
+				}
+			}
+			if ( $count > 0 ) {
+				wp_redirect( 'http://assessment.communitycommons.org/Footprint/Default.aspx?t=DCH' );
+				exit();
+			} else {
+				return "";
+			}
+		}
+	}
 }
