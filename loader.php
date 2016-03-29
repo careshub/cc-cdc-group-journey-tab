@@ -44,17 +44,7 @@ function startup_cdc_digital_journey_tab() {
 	require( dirname( __FILE__ ) . '/includes/cdc-journey-functions.php' );
 	require( dirname( __FILE__ ) . '/includes/cdc-journey-template-functions.php' );
 	require( dirname( __FILE__ ) . '/includes/class-cdc-journey.php' );
-	require( dirname( __FILE__ ) . '/includes/class-cdc-group-extension.php' );
 
 	add_action( 'bp_include', array( 'CC_CDC_Journey', 'get_instance' ), 22 );
-
 }
 add_action( 'bp_include', 'startup_cdc_digital_journey_tab' );
-
-/* On deacativation, clean up anything your component has added.
-function bp_example_deactivate() {
-//You might want to delete any options or tables that your component created.
-}
-register_deactivation_hook( __FILE__, 'bp_library_pane_deactivate' );
-*/
-?>

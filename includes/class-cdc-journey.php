@@ -57,15 +57,15 @@ class CC_CDC_Journey {
 	 */
 	private function __construct() {
 		// Load public-facing style sheet and JavaScript.
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Add the ability to "favorite" docs created by group admins
-		add_action( 'bp_docs_single_doc_meta', array( $this, 'add_favoriting_mechanism' ), 60 );
+		// add_action( 'bp_docs_single_doc_meta', array( $this, 'add_favoriting_mechanism' ), 60 );
 
 		// Handle AJAX favorite/unfavorite requests.
-		add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
-		add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
+		// add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
+		// add_action( 'wp_ajax_cdc_favorite_doc', array( $this, 'ajax_cdc_favorite_doc' ) );
 
 		// From the theme's functions file.
 		add_filter( 'gform_field_value_uuid', array( $this, 'cdc_gf_uuid' ) );
