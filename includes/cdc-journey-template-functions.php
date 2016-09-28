@@ -271,8 +271,8 @@ function cdc_dch_top() {
         <h2>Reflection Point One - Resources</h2>
         <p>
             <ul>
-                <li><a href="http://www.communitycommons.org/wp-content/uploads/2013/06/guidingprinciples.pdf" target="_blank">Guiding Principles</a></li>
-                <li><a href="http://www.communitycommons.org/wp-content/uploads/2013/06/practices.pdf" target="_blank">Recommended Practices for Enhancing Community Health Improvement</a></li>
+                <li><a href="<?php echo content_url( 'uploads/2013/06/guidingprinciples.pdf' ); ?>" target="_blank">Guiding Principles</a></li>
+                <li><a href="<?php echo content_url( 'uploads/2013/06/practices.pdf' ); ?>" target="_blank">Recommended Practices for Enhancing Community Health Improvement</a></li>
             </ul>
         </p>
     </div>
@@ -308,9 +308,9 @@ function cdc_dch_top() {
 
 <script type="text/javascript">
     var $j = jQuery.noConflict();
-    var baseurl = window.location.protocol + "//" + window.location.host + "/";
+    var baseurl = window.location.host;
     var formid = 9;
-    if (baseurl == "http://dev.communitycommons.org/") {
+    if (baseurl == "dev.communitycommons.org") {
         formid = 10;
     }
 

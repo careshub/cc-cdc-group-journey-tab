@@ -8,7 +8,7 @@
 
 // Is this the correct group for this site?
 function cdc_get_target_group_id() {
-	$home_url = get_home_url();
+	$home_url = get_site_url( null, '', 'http' );
 	switch ( $home_url ) {
 		case 'http://commonsdev.local':
 			$target_group_id = 538;
@@ -28,9 +28,9 @@ function cdc_get_target_group_id() {
 }
 
 // What's our target bp-doc tag taxonomy term id?
-// This determines which 
+// This determines which
 function cdc_get_target_tag_id() {
-	$home_url = get_home_url();
+	$home_url = get_site_url( null, '', 'http' );
 	switch ( $home_url ) {
 		case 'http://commonsdev.local':
 			$target_tag_id = 12883;
@@ -50,7 +50,7 @@ function cdc_get_target_tag_id() {
 
 //What's the id of the source pages for the "journey" and resources subnav?
 function cdc_get_journey_source_page_id() {
-	$home_url = get_home_url();
+	$home_url = get_site_url( null, '', 'http' );
 	switch ( $home_url ) {
 		case 'http://commonsdev.local':
 			$target_page_id = 19385;
@@ -69,7 +69,7 @@ function cdc_get_journey_source_page_id() {
 }
 
 function cdc_get_resources_source_page_id() {
-	$home_url = get_home_url();
+	$home_url = get_site_url( null, '', 'http' );
 	switch ( $home_url ) {
 		case 'http://commonsdev.local':
 			$target_page_id = 19388;
