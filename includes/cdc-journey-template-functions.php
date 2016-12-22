@@ -433,7 +433,7 @@ function cdc_dch_top() {
 
 
 
-    $pt1 = '<div style="width:800px; text-align:left;position:relative;top:-20px;"><img src="http://www.communitycommons.org/wp-content/uploads/2013/08/banner2.jpg" alt="Community Health Improvement Journey" style="box-shadow: 0px 0px 0px #ffffff;"></div>';
+    $pt1 = '<div style="width:800px; text-align:left;position:relative;top:-20px;"><img src="' . content_url( '/uploads/2013/08/banner2.jpg' ) . '" alt="Community Health Improvement Journey" style="box-shadow: 0px 0px 0px #ffffff;"></div>';
 
     return $pt1;
 
